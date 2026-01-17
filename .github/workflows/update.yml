@@ -1,29 +1,50 @@
-name: Update Configs
+name: Update VLESS Configs
 
 on:
   schedule:
-    - cron: '0 */6 * * *'  # Каждые 6 часов
-  workflow_dispatch:  # Ручной запуск
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+  push:
+    branches: [ main ]
 
 jobs:
   update:
     runs-on: ubuntu-latest
+    
+    # Ключевое изменение - даем права на запись
+    permissions:
+      contents: write
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        # Важно: используем специальный токен
+        token: ${{ secrets.GITHUB_TOKEN }}
         
-      - name: Create config file
-        run: |
-          echo "# VLESS Configurations" > vless.txt
-          echo "# Updated: $(date)" >> vless.txt
-          echo "" >> vless.txt
-          echo "vless://test1@server.com:443?security=tls#Test1" >> vless.txt
-          echo "vless://test2@server.com:443?security=tls#Test2" >> vless.txt
-          
-      - name: Commit and push
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add vless.txt
-          git commit -m "Update configs $(date)"
+    - name: Create or update config file
+      run: |
+        echo "# 🚀 VLESS Configurations" > vless.txt
+        echo "# Updated: $(date '+%Y-%m-%d %H:%M:%S UTC')" >> vless.txt
+        echo "" >> vless.txt
+        echo "vless://uuid@server1.com:443?security=tls&sni=example.com&type=ws#Server1" >> vless.txt
+        echo "vless://uuid@server2.com:443?security=tls&sni=example.com&type=ws#Server2" >> vless.txt
+        echo "" >> vless.txt
+        echo "# Total: 2 configs" >> vless.txt
+        
+    - name: Commit and Push
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        
+        # Добавляем все изменения
+        git add .
+        
+        # Проверяем есть ли изменения для коммита
+        if [[ -n $(git status --porcelain) ]]; then
+          git commit -m "🤖 Auto-update: $(date '+%Y-%m-%d %H:%M')"
           git push
+          echo "✅ Changes pushed successfully"
+        else
+          echo "📭 No changes to commit"
+        fi
