@@ -1,0 +1,29 @@
+name: Update Configs
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Каждые 6 часов
+  workflow_dispatch:  # Ручной запуск
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Create config file
+        run: |
+          echo "# VLESS Configurations" > vless.txt
+          echo "# Updated: $(date)" >> vless.txt
+          echo "" >> vless.txt
+          echo "vless://test1@server.com:443?security=tls#Test1" >> vless.txt
+          echo "vless://test2@server.com:443?security=tls#Test2" >> vless.txt
+          
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add vless.txt
+          git commit -m "Update configs $(date)"
+          git push
