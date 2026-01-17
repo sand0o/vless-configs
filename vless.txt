@@ -1,7 +1,7 @@
 # 🚀 VLESS Configurations
-# Updated: 2026-01-17 16:52:49 UTC
+# Updated: 2026-01-17 16:55:22 UTC
 
 vless://160e9c18-c548-42bf-9c00-905aed8ef96f@subscribe.getvlessvpn.com:49000?mode=gun&security=reality&encryption=none&pbk=2K2NO2jXF45pA0-eUobqo-gnur61TadbWD4B93Zl_Vc&fp=chrome&type=grpc&serviceName=dropbox.com&sni=google.com&sid=170f8a2036#%40v2ray313%20%DA%A9%D8%A7%D9%86%D8%A7%D9%84%D9%85%D9%88%D9%86%20%F0%9F%92%97
-vless://uuid@server2.com:443?security=tls&sni=example.com&type=ws#Server2
+
 
 # Total: 2 configs
