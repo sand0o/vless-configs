@@ -1,0 +1,7 @@
+# 🚀 VLESS Configurations
+# Updated: 2026-01-17 14:53:27 UTC
+
+vless://uuid@server1.com:443?security=tls&sni=example.com&type=ws#Server1
+vless://uuid@server2.com:443?security=tls&sni=example.com&type=ws#Server2
+
+# Total: 2 configs
